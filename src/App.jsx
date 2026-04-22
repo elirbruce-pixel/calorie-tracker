@@ -19,6 +19,8 @@ const PRESETS = [
   { name: "Almonds (1oz)", cal: 164, p: 6, c: 6, f: 14 },
   { name: "Donut", cal: 300, p: 4, c: 36, f: 16 },
   { name: "Bag of Chips", cal: 150, p: 2, c: 15, f: 10 },
+  { name: "Granola Bar", cal: 190, p: 4, c: 29, f: 7 },
+  { name: "Chocolate Milk (1 cup)", cal: 208, p: 8, c: 32, f: 8 },
   { name: "Chicken Breast (6oz)", cal: 280, p: 52, c: 0, f: 6 },
   { name: "Ground Beef (6oz)", cal: 340, p: 38, c: 0, f: 20 },
   { name: "Salmon (6oz)", cal: 350, p: 40, c: 0, f: 20 },
@@ -29,12 +31,19 @@ const PRESETS = [
   { name: "Sweet Potato", cal: 130, p: 3, c: 30, f: 0.1 },
   { name: "Ice Cream (1 cup)", cal: 290, p: 5, c: 34, f: 16 },
   { name: "Chipotle Bowl (est)", cal: 850, p: 45, c: 90, f: 30 },
-  { name: "Subway 6\" Turkey", cal: 280, p: 18, c: 40, f: 4.5 },
-  { name: "McDonald's Burger", cal: 530, p: 25, c: 45, f: 26 },
+  { name: "Subway Chicken Footlong", cal: 560, p: 42, c: 72, f: 10 },
+  { name: "Cholms Burger (est)", cal: 750, p: 38, c: 55, f: 38 },
+  { name: "Cosmic Pizza (2 slices)", cal: 560, p: 24, c: 68, f: 20 },
+  { name: "Mexican Truck Burrito", cal: 800, p: 38, c: 85, f: 28 },
+  { name: "Mexican Truck Plate", cal: 480, p: 24, c: 42, f: 16 },
+  { name: "McDonald's McDouble", cal: 400, p: 22, c: 33, f: 20 },
+  { name: "McDonald's Fries (M)", cal: 320, p: 4, c: 44, f: 15 },
+  { name: "Chipotle Kids Meal", cal: 600, p: 40, c: 60, f: 25 },
 ];
 
 const todayKey = () => new Date().toISOString().split("T")[0];
 const dateKey = (d) => d.toISOString().split("T")[0];
+const WATER_GOAL = 100;
 
 export default function App() {
   const [entries, setEntries] = useState(() => {
@@ -220,7 +229,7 @@ export default function App() {
             { label: "PRO", val: Math.round(totals.p) + "g", color: COLORS.blue },
             { label: "CARB", val: Math.round(totals.c) + "g", color: COLORS.pink },
             { label: "FAT", val: Math.round(totals.f) + "g", color: COLORS.yellow },
-            { label: "💧", val: water + " cups", color: "#56c8f5" },
+            { label: "💧", val: water + " oz", color: "#56c8f5" },
           ].map((m) => (
             <div key={m.label} style={{ flex: 1, background: "#151515", borderRadius: 8, padding: "8px 0", textAlign: "center", border: `1px solid ${COLORS.border}` }}>
               <div style={{ fontSize: 12, fontWeight: 500, color: m.color }}>{m.val}</div>
@@ -254,11 +263,12 @@ export default function App() {
           <div style={{ background: COLORS.card, borderRadius: 10, padding: "14px 16px", border: `1px solid ${COLORS.border}`, marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
               <div style={{ fontSize: 11, color: "#56c8f5" }}>💧 WATER</div>
-              <div style={{ fontSize: 10, color: COLORS.muted, marginTop: 2 }}>{water} / 8 cups today</div>
+              <div style={{ fontSize: 10, color: COLORS.muted, marginTop: 2 }}>{water} / {WATER_GOAL} oz today</div>
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={() => setWater(w => Math.max(0, w - 1))} style={{ background: "#222", color: COLORS.text, borderRadius: 6, width: 32, height: 32, fontSize: 18 }}>-</button>
-              <button onClick={() => setWater(w => w + 1)} style={{ background: "#56c8f5", color: "#000", borderRadius: 6, width: 32, height: 32, fontSize: 18, fontWeight: 700 }}>+</button>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <button onClick={() => setWater(w => Math.max(0, w - 8))} style={{ background: "#222", color: COLORS.text, borderRadius: 6, width: 32, height: 32, fontSize: 16 }}>-</button>
+              <span style={{ fontSize: 11, color: COLORS.muted }}>8oz</span>
+              <button onClick={() => setWater(w => w + 8)} style={{ background: "#56c8f5", color: "#000", borderRadius: 6, width: 32, height: 32, fontSize: 16, fontWeight: 700 }}>+</button>
             </div>
           </div>
 
@@ -397,7 +407,7 @@ export default function App() {
               { label: "Protein", val: "190g", color: COLORS.blue },
               { label: "Carbs", val: "280g", color: COLORS.pink },
               { label: "Fat", val: "70g", color: COLORS.yellow },
-              { label: "Water", val: "8 cups", color: "#56c8f5" },
+              { label: "Water", val: "100 oz", color: "#56c8f5" },
             ].map((m, i, arr) => (
               <div key={m.label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: i < arr.length - 1 ? `1px solid ${COLORS.border}` : "none" }}>
                 <span style={{ fontSize: 12, color: COLORS.muted }}>{m.label}</span>
