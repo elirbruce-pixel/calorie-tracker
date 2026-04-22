@@ -7,14 +7,18 @@ const COLORS = {
 };
 
 const PRESETS = [
-  { name: "Chicken Breast (100g)", cal: 165, p: 31, c: 0, f: 3.6 },
-  { name: "White Rice (100g)", cal: 130, p: 2.7, c: 28, f: 0.3 },
-  { name: "Egg", cal: 78, p: 6, c: 0.6, f: 5 },
-  { name: "Banana", cal: 89, p: 1.1, c: 23, f: 0.3 },
-  { name: "Oats (100g)", cal: 389, p: 17, c: 66, f: 7 },
-  { name: "Protein Shake", cal: 120, p: 25, c: 3, f: 1.5 },
-  { name: "Greek Yogurt (100g)", cal: 59, p: 10, c: 3.6, f: 0.4 },
-  { name: "Almonds (30g)", cal: 173, p: 6, c: 6, f: 15 },
+  { name: "PB Toast (2 slices)", cal: 380, p: 14, c: 42, f: 18 },
+  { name: "Bagel & Cream Cheese", cal: 420, p: 12, c: 62, f: 14 },
+  { name: "Protein Bar", cal: 210, p: 20, c: 24, f: 7 },
+  { name: "Meat Stick", cal: 100, p: 9, c: 1, f: 7 },
+  { name: "Chicken Breast (6oz)", cal: 280, p: 52, c: 0, f: 6 },
+  { name: "White Rice (1 cup)", cal: 200, p: 4, c: 44, f: 0.5 },
+  { name: "Protein Shake", cal: 160, p: 30, c: 6, f: 2 },
+  { name: "Eggs x3", cal: 234, p: 18, c: 1.8, f: 15 },
+  { name: "Ice Cream (1 cup)", cal: 290, p: 5, c: 34, f: 16 },
+  { name: "Banana", cal: 105, p: 1.3, c: 27, f: 0.4 },
+  { name: "Greek Yogurt (1 cup)", cal: 130, p: 22, c: 9, f: 0.7 },
+  { name: "Donut", cal: 300, p: 4, c: 36, f: 16 },
 ];
 
 const todayKey = () => new Date().toISOString().split("T")[0];
@@ -23,7 +27,7 @@ export default function App() {
   const [entries, setEntries] = useState(() => {
     try { return JSON.parse(localStorage.getItem(`ct_${todayKey()}`) || "[]"); } catch { return []; }
   });
-  const [goal, setGoal] = useState(() => parseInt(localStorage.getItem("ct_goal") || "2200"));
+  const [goal, setGoal] = useState(() => parseInt(localStorage.getItem("ct_goal") || "2800"));
   const [form, setForm] = useState({ name: "", cal: "", p: "", c: "", f: "" });
   const [tab, setTab] = useState("log");
   const [editGoal, setEditGoal] = useState(goal);
@@ -69,7 +73,7 @@ export default function App() {
   const barColor = pct >= 100 ? COLORS.danger : pct >= 80 ? "#ffb347" : COLORS.accent;
 
   return (
-    <div style={{ fontFamily: "'DM Mono', monospace", background: COLORS.bg, minHeight: "100vh", color: COLORS.text, padding: "0", maxWidth: 480, margin: "0 auto" }}>
+    <div style={{ fontFamily: "'DM Mono', monospace", background: COLORS.bg, minHeight: "100vh", color: COLORS.text, width: "100%" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -116,7 +120,7 @@ export default function App() {
           ))}
         </div>
 
-        <div style={{ display: "flex", gap: 0 }}>
+        <div style={{ display: "flex" }}>
           {[["log", "LOG"], ["add", "+ ADD"], ["goal", "GOAL"]].map(([key, label]) => (
             <button key={key} onClick={() => setTab(key)} style={{
               flex: 1, padding: "10px 0", fontSize: 11, letterSpacing: 1,
@@ -164,7 +168,7 @@ export default function App() {
                 background: "#151515", border: `1px solid ${COLORS.border}`, borderRadius: 20,
                 padding: "6px 12px", fontSize: 11, color: COLORS.text,
               }}>
-                {p.name.split("(")[0].trim()} <span style={{ color: COLORS.muted }}>{p.cal}</span>
+                {p.name} <span style={{ color: COLORS.muted }}>{p.cal}</span>
               </button>
             ))}
           </div>
@@ -187,25 +191,4 @@ export default function App() {
 
       {tab === "goal" && (
         <div style={{ padding: "28px 20px" }}>
-          <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1, marginBottom: 10 }}>DAILY CALORIE GOAL</div>
-          <input type="number" value={editGoal} onChange={e => setEditGoal(parseInt(e.target.value) || 0)}
-            style={{ fontSize: 24, textAlign: "center", padding: "16px", marginBottom: 12 }} />
-          <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-            {[1800, 2000, 2200, 2500, 2800].map(g => (
-              <button key={g} onClick={() => setEditGoal(g)} style={{
-                flex: 1, padding: "8px 0", fontSize: 11, borderRadius: 6,
-                background: editGoal === g ? COLORS.accent : "#151515",
-                color: editGoal === g ? "#000" : COLORS.muted,
-                border: `1px solid ${editGoal === g ? COLORS.accent : COLORS.border}`,
-              }}>{g}</button>
-            ))}
-          </div>
-          <button onClick={saveGoal} style={{
-            width: "100%", background: COLORS.accent, color: "#000",
-            borderRadius: 8, padding: "12px", fontSize: 12, letterSpacing: 1, fontWeight: 500,
-          }}>SAVE GOAL</button>
-        </div>
-      )}
-    </div>
-  );
-}
+          <div style={{ fontSize: 10, color: COLORS.muted, letterSpa
